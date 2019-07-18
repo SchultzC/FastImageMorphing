@@ -28,7 +28,7 @@ make
 ```
 
 ### Build notes
-- Default CMakeLists.txt is for the specific Virtual Environment using g++
+- Default CMakeLists.txt is for a specific Virtual Environment using g++
 - A separate CMakeList_myMAC.txt is provided for clang++
 
 
