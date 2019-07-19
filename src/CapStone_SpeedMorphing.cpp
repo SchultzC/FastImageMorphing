@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 {
 
     namedWindow(winName, WINDOW_AUTOSIZE);
-    
+
     createTrackbar("Line1 Xstart:", winName,
                    &line1Xstart, maxXstart,
                    Morphing);
@@ -71,8 +71,6 @@ int main(int argc, char **argv)
                    &line2Yend, maxYstart,
                    Morphing);
 
-    
-    
     // d.test();
 
     Morphing(0, 0);
@@ -91,7 +89,11 @@ void Morphing(int, void *)
     float pParam = 0.1;
     string broderTreatment = "copy"; //wrap is also accepted
 
+    // calculate new output
     d.createOutput(correspondence, aParam, bParam, pParam, broderTreatment);
+
+
+    // draw vectors being used.
     int thickness = 2;
     int lineType = LINE_8;
     line(*sharedDst,
@@ -106,5 +108,7 @@ void Morphing(int, void *)
          Scalar(0, 0, 255),
          thickness,
          lineType);
+
+    // redraw
     imshow(winName, *sharedDst);
 }

@@ -96,33 +96,33 @@ void Morph::setOutputValues(Point2D location, Point2D fromLocation, int columns,
 
         if (fromLocation.getVect()[0] > columns - 1)
         {
-            fromLocation.setPy(columns - 1);
+            fromLocation.setPx(columns - 1);
         }
 
         if (fromLocation.getVect()[0] < 0)
         {
-            fromLocation.setPy(0);
+            fromLocation.setPx(0);
         }
     }
     else if (borderMode == "wrap")
     {
         if (fromLocation.getVect()[1] > rows - 1)
         {
-            fromLocation.setPy(fromLocation.getVect()[1] - rows);
+            fromLocation.setPy(fromLocation.getVect()[1] - rows-1);
         }
         if (fromLocation.getVect()[1] < 0)
         {
-            fromLocation.setPy(rows + fromLocation.getVect()[1]);
+            fromLocation.setPy(rows-1 + fromLocation.getVect()[1]);
         }
 
         if (fromLocation.getVect()[0] > columns - 1)
         {
-            fromLocation.setPy(fromLocation.getVect()[0] - columns);
+            fromLocation.setPx(fromLocation.getVect()[0] - columns-1);
         }
 
         if (fromLocation.getVect()[0] < 0)
         {
-            fromLocation.setPy(columns + fromLocation.getVect()[0]);
+            fromLocation.setPx(columns-1 + fromLocation.getVect()[0]);
         }
     }
 
