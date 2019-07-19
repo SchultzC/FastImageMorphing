@@ -63,8 +63,8 @@ void Morph::calculateNewValueLocation(vector<vector<double>> lineCorrespondence,
             dist = xPoint.shortestDistance(dstLine);
         }
         // cout << "dist: " << dist << endl;
-
-        double weight = pow(pow(pPoint.euclideanDistance(qPoint), pParam) / (aParam + dist), bParam);
+        double demonw = aParam + dist;
+        double weight = pow(pow(pPoint.euclideanDistance(qPoint), pParam) / demonw, bParam);
         // cout << "weight: " << weight << endl;
 
         dSum = dSum + d.scale(weight);
@@ -73,7 +73,12 @@ void Morph::calculateNewValueLocation(vector<vector<double>> lineCorrespondence,
         weightSum += weight;
     }
 
-    xPrime = xPoint + dSum.scale(1 / weightSum);
+    double denom = weightSum;
+    if (denom == 0){
+        denom = 0.0001;
+    }
+
+    xPrime = xPoint + dSum.scale(1 / denom);
     // cout << "NNNxPrime: " << xPrime.getVect()[0] << "," << xPrime.getVect()[1] << endl;
 
     // cout << "--------------------------" << endl;
@@ -142,14 +147,24 @@ void Morph::setOutputValues(Point2D location, Point2D fromLocation, int columns,
 
 double Morph::calcU(Point2D X, Point2D P, Point2D Q)
 {
-    return (X - P).dot(Q - P) / pow((Q - P).euclideanNorm(), 2);
+    double denom = pow((Q - P).euclideanNorm(), 2);
+    if (denom == 0){
+        denom = 0.0001;
+    }
+    return (X - P).dot(Q - P) / denom;
 }
 
 double Morph::calcV(Point2D X, Point2D P, Point2D Q)
 {
     Point2D originPoint;
     vector<Point2D> vectorline{originPoint, Q - P};
-    return (X - P).dot(X.perpendicular(vectorline)) / (Q - P).euclideanNorm();
+
+    double denom = (Q - P).euclideanNorm();
+    if (denom == 0){
+        denom = 0.0001;
+    }
+
+    return (X - P).dot(X.perpendicular(vectorline)) / denom;
 }
 
 Point2D Morph::calulateXprime(Point2D Pprime, Point2D Qprime, double u, double v)
