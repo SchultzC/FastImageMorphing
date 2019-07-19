@@ -1,7 +1,6 @@
 # FastImageMorphing
 
 
-## Project Option # 1
 ### A C++ implementation of image morphing (Beier and Neely '92)
 https://www.cs.princeton.edu/courses/archive/fall00/cs426/papers/beier92.pdf
 
