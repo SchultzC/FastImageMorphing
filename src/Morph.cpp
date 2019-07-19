@@ -24,7 +24,7 @@ void Morph::createOutput(vector<vector<double>> lineCorrespondence, float aParam
             Point2D xPrime;
             double weightSum = 0;
             double dist;
-            
+
             //  I would like to multi thread this protion since there is nothing stopping me from running this in parrallel.
             calculateNewValueLocation(lineCorrespondence, columns, rows, aParam, bParam, pParam, xPoint, dSum, xPrime, weightSum, dist, borderMode);
         }
@@ -74,7 +74,8 @@ void Morph::calculateNewValueLocation(vector<vector<double>> lineCorrespondence,
     }
 
     double denom = weightSum;
-    if (denom == 0){
+    if (denom == 0)
+    {
         denom = 0.0001;
     }
 
@@ -111,23 +112,22 @@ void Morph::setOutputValues(Point2D location, Point2D fromLocation, int columns,
     }
     else if (borderMode == "wrap")
     {
-        if (fromLocation.getVect()[1] > rows - 1)
-        {
-            fromLocation.setPy(fromLocation.getVect()[1] - rows-1);
-        }
         if (fromLocation.getVect()[1] < 0)
         {
-            fromLocation.setPy(rows-1 + fromLocation.getVect()[1]);
+            fromLocation.setPy(rows + (int)round(fromLocation.getVect()[1]) % rows);
         }
-
-        if (fromLocation.getVect()[0] > columns - 1)
+        else
         {
-            fromLocation.setPx(fromLocation.getVect()[0] - columns-1);
+            fromLocation.setPy((int)round(fromLocation.getVect()[1]) % rows);
         }
 
         if (fromLocation.getVect()[0] < 0)
         {
-            fromLocation.setPx(columns-1 + fromLocation.getVect()[0]);
+            fromLocation.setPx(columns + (int)round(fromLocation.getVect()[0]) % columns);
+        }
+        else
+        {
+            fromLocation.setPy((int)round(fromLocation.getVect()[1]) % rows);
         }
     }
 
@@ -135,8 +135,8 @@ void Morph::setOutputValues(Point2D location, Point2D fromLocation, int columns,
 
     int setX = (int)round(location.getVect()[0]);
     int setY = (int)round(location.getVect()[1]);
-    int fromX = (int)round(fromLocation.getVect()[0]);
-    int fromY = (int)round(fromLocation.getVect()[1]);
+    int fromX = fromLocation.getVect()[0];
+    int fromY = fromLocation.getVect()[1];
 
     dst->at<Vec3b>(setY, setX)[0] = src->at<Vec3b>(fromY, fromX)[0];
     dst->at<Vec3b>(setY, setX)[1] = src->at<Vec3b>(fromY, fromX)[1];
@@ -148,7 +148,8 @@ void Morph::setOutputValues(Point2D location, Point2D fromLocation, int columns,
 double Morph::calcU(Point2D X, Point2D P, Point2D Q)
 {
     double denom = pow((Q - P).euclideanNorm(), 2);
-    if (denom == 0){
+    if (denom == 0)
+    {
         denom = 0.0001;
     }
     return (X - P).dot(Q - P) / denom;
@@ -160,7 +161,8 @@ double Morph::calcV(Point2D X, Point2D P, Point2D Q)
     vector<Point2D> vectorline{originPoint, Q - P};
 
     double denom = (Q - P).euclideanNorm();
-    if (denom == 0){
+    if (denom == 0)
+    {
         denom = 0.0001;
     }
 
