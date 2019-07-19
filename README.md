@@ -57,3 +57,5 @@ is run the user should see and opencv GUI with 8 sliders that relate to 2 contro
 #### Recommended Use:
 As mentioned some of the results can be crazy looking.  To get a feel for things, I recommend starting by moving the **Line2 Yend** slider first as this shows intuitive behavior that will not cross the control vectors.
 
+![](src/morph.gif)
+
